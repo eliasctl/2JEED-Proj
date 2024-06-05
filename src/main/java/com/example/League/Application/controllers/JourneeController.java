@@ -23,21 +23,25 @@ public class JourneeController {
     SaisonService saisonService;
 
     @PostMapping
-    public ResponseEntity <?> createJournee(@RequestBody Journee entity){
+    public ResponseEntity<?> createJournee(@RequestBody Journee entity) {
         Optional<Saison> saison = saisonService.getSaisonById(entity.getSaison().getId());
         if (saison.isEmpty())
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cette saison n'existe pas");
 
         String libelle = entity.getLibelle();
         for (Journee journee : saison.get().getJournees()){
             if (journee.getLibelle().equals(libelle))
                 return new ResponseEntity<>(
-                        "journée exsite déjà pour cette saison",
+                        "journée existe déjà pour cette saison",
                         HttpStatus.BAD_REQUEST
                 );
         }
+        
+        @SuppressWarnings("unused")
+        Journee createdJournee = journeeService.createJournee(entity);
+        
         return new ResponseEntity<>(
-                "journé ajouté avec succès",
+                "journée ajoutée avec succès",
                 HttpStatus.CREATED
         );
     }
