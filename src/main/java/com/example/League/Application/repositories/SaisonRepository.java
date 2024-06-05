@@ -11,4 +11,5 @@ public interface SaisonRepository extends JpaRepository<Saison, Long> {
     Saison save(Saison saison);
     Optional<Saison> findById(Long id);
     void deleteById(Long id);
+    Optional<Saison> findByLibelle(String libelle);
 }

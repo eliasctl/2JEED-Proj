@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -20,5 +22,6 @@ public class Saison {
     private String libelle;
 
     @OneToMany(mappedBy = "saison")
+    @JsonIgnore
     List<Journee> journees = new ArrayList<>();
 }

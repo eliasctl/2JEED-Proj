@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -26,23 +24,29 @@ public class JourneeController {
     public ResponseEntity<?> createJournee(@RequestBody Journee entity) {
         Optional<Saison> saison = saisonService.getSaisonById(entity.getSaison().getId());
         if (saison.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cette saison n'existe pas");
-
+            return ResponseEntity.notFound().build();
+    
         String libelle = entity.getLibelle();
-        for (Journee journee : saison.get().getJournees()){
-            if (journee.getLibelle().equals(libelle))
-                return new ResponseEntity<>(
-                        "journée existe déjà pour cette saison",
-                        HttpStatus.BAD_REQUEST
-                );
+        if (journeeService.existsByLibelleAndSaison(libelle, saison.get())) {
+            return new ResponseEntity<>(
+                    "Une journée avec le même libellé existe déjà pour cette saison",
+                    HttpStatus.BAD_REQUEST
+            );
         }
-        
-        @SuppressWarnings("unused")
-        Journee createdJournee = journeeService.createJournee(entity);
-        
+    
+        journeeService.createJournee(entity); // Assuming this method exists in journeeService
         return new ResponseEntity<>(
-                "journée ajoutée avec succès",
+                "Journée ajoutée avec succès",
                 HttpStatus.CREATED
         );
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getJourneeById(@PathVariable Long id) {
+        Optional<Journee> journee = journeeService.getJourneeById(id);
+        if (journee.isEmpty())
+            return ResponseEntity.notFound().build();
+        return new ResponseEntity<>(journee.get(), HttpStatus.OK);
     }
 }

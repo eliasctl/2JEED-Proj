@@ -15,6 +15,10 @@ public class SaisonImplem implements SaisonService {
 
     @Override
     public Saison createSaison(Saison saison) {
+        Optional<Saison> existingSaison = saisonRepository.findByLibelle(saison.getLibelle());
+        if (existingSaison.isPresent()) {
+            throw new IllegalArgumentException("Le libelle existe déjà.");
+        }
         return saisonRepository.save(saison);
     }
 
