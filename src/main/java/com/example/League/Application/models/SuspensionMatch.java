@@ -42,8 +42,4 @@ public class SuspensionMatch {
     public void setdateSuspension(LocalDateTime dateSuspension) {
         this.dateSuspension = dateSuspension;
     }
-
-    public Object getStatus() {
-        throw new UnsupportedOperationException("Unimplemented method 'getStatus'");
-    }
 }

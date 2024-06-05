@@ -1,5 +1,4 @@
 package com.example.League.Application.controllers;
-
 import com.example.League.Application.models.Game;
 import com.example.League.Application.models.SuspensionMatch;
 import com.example.League.Application.models.Utilisateur;
@@ -55,7 +54,7 @@ public class SuspensionMatchController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getSuspensionMatchById(@PathVariable Long id) {
+    public ResponseEntity<?> getSuspensionById(@PathVariable Long id) {
         Optional<SuspensionMatch> suspensionMatch = suspensionMatchService.getSuspensionById(id);
         if (suspensionMatch.isEmpty()) {
             return ResponseEntity.notFound().build();
