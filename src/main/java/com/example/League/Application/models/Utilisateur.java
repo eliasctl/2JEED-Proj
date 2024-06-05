@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -27,6 +29,7 @@ public class Utilisateur {
         MEMBER_LEAGUE
     }
 
-    @OneToMany(mappedBy = "utilisateur")
+    @OneToMany(mappedBy = "memberLeague", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<SuspensionMatch> suspensions;
 }

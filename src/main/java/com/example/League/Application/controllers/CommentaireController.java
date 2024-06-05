@@ -34,19 +34,16 @@ public class CommentaireController {
         Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurById(commentaire.getJournaliste().getId());
 
         if (game.isEmpty() || utilisateur.isEmpty() || utilisateur.get().getRole() != Utilisateur.Role.JOURNALISTE) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Seuls les journalistes sont autorisés à enregistrer des événements");
         }
 
         commentaire.setTimestamp(LocalDateTime.now());
         commentaireService.saveCommentaire(commentaire);
-        return new ResponseEntity<>(
-                "Commentaire ajouté avec succès",
-                HttpStatus.CREATED
-        );
+        return ResponseEntity.status(HttpStatus.CREATED).body("Commentaire ajouté avec succès");
     }
 
-    @GetMapping("/{gameId}")
-    public ResponseEntity<?> getCommentairesByGame(@PathVariable Long gameId) {
+    @GetMapping("/{Id}")
+    public ResponseEntity<?> getCommentairesByGame(@PathVariable("Id") Long gameId) {
         List<Commentaire> commentaires = commentaireService.getCommentairesByGameId(gameId);
         return new ResponseEntity<>(commentaires, HttpStatus.OK);
     }

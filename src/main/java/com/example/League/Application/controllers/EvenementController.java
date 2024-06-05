@@ -29,14 +29,12 @@ public class EvenementController {
 
     @PostMapping
     public ResponseEntity<?> addEvenement(@RequestBody Evenement evenement) {
-        // Récupérer l'utilisateur par son ID
         Optional<Utilisateur> optUtilisateur = utilisateurService.getUtilisateurById(evenement.getJournaliste().getId());
         if (optUtilisateur.isEmpty() || !isJournaliste(optUtilisateur.get())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body("Seuls les journalistes sont autorisés à enregistrer des événements");
         }
 
-        // Vérifie si le type d'événement est valide
         if (!isValidEventType(evenement.getType())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("Type d'événement invalide");
@@ -55,12 +53,10 @@ public class EvenementController {
         );
     }
 
-    // Méthode pour vérifier si l'utilisateur est un journaliste
     private boolean isJournaliste(Utilisateur utilisateur) {
         return utilisateur != null && Utilisateur.Role.JOURNALISTE.equals(utilisateur.getRole());
     }
 
-    // Méthode pour vérifier si le type d'événement est valide
     private boolean isValidEventType(String type) {
         return type != null && (type.equals("But") || type.equals("Carton jaune") || type.equals("Carton rouge"));
     }
