@@ -34,7 +34,7 @@ public class JourneeController {
             );
         }
     
-        journeeService.createJournee(entity); // Assuming this method exists in journeeService
+        journeeService.createJournee(entity);
         return new ResponseEntity<>(
                 "Journée ajoutée avec succès",
                 HttpStatus.CREATED

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EvenementServiceImpl implements EvenementService {
@@ -21,5 +22,10 @@ public class EvenementServiceImpl implements EvenementService {
     @Override
     public List<Evenement> getEvenementsByGameId(Long gameId) {
         return evenementRepository.findByGameId(gameId);
+    }
+
+    @Override
+    public Optional<Evenement> getEvenementById(Long id) {
+        return evenementRepository.findById(id);
     }
 }
