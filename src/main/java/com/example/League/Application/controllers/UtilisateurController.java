@@ -23,14 +23,12 @@ public class UtilisateurController {
         if (existingUtilisateur.isPresent())
             return new ResponseEntity<>(
                     "Email déjà utilisé",
-                    HttpStatus.BAD_REQUEST
-            );
+                    HttpStatus.BAD_REQUEST);
 
         utilisateurService.saveUtilisateur(utilisateur);
         return new ResponseEntity<>(
                 "Utilisateur ajouté avec succès",
-                HttpStatus.CREATED
-        );
+                HttpStatus.CREATED);
     }
 
     @GetMapping

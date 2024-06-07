@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface JourneeRepository extends JpaRepository<Journee, Long> {
     Journee save(Journee journee);
-    Optional<Journee> findByLibelle (String libelle);
+
+    Optional<Journee> findByLibelle(String libelle);
+
     boolean existsByLibelleAndSaison(String libelle, Saison saison);
 }

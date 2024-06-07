@@ -29,15 +29,16 @@ public class EvenementController {
 
     @PostMapping
     public ResponseEntity<?> addEvenement(@RequestBody Evenement evenement) {
-        Optional<Utilisateur> optUtilisateur = utilisateurService.getUtilisateurById(evenement.getJournaliste().getId());
+        Optional<Utilisateur> optUtilisateur = utilisateurService
+                .getUtilisateurById(evenement.getJournaliste().getId());
         if (optUtilisateur.isEmpty() || !isJournaliste(optUtilisateur.get())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("Seuls les journalistes sont autorisés à enregistrer des événements");
+                    .body("Seuls les journalistes sont autorisés à enregistrer des événements");
         }
 
         if (!isValidEventType(evenement.getType())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Type d'événement invalide");
+                    .body("Type d'événement invalide");
         }
 
         Optional<Game> game = gameService.getGameById(evenement.getGame().getId());
@@ -49,8 +50,7 @@ public class EvenementController {
         evenementService.saveEvenement(evenement);
         return new ResponseEntity<>(
                 "Événement ajouté avec succès",
-                HttpStatus.CREATED
-        );
+                HttpStatus.CREATED);
     }
 
     private boolean isJournaliste(Utilisateur utilisateur) {

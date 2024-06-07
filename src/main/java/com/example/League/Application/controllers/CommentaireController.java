@@ -34,7 +34,8 @@ public class CommentaireController {
         Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurById(commentaire.getJournaliste().getId());
 
         if (game.isEmpty() || utilisateur.isEmpty() || utilisateur.get().getRole() != Utilisateur.Role.JOURNALISTE) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Seuls les journalistes sont autorisés à enregistrer des événements");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Seuls les journalistes sont autorisés à enregistrer des événements");
         }
 
         commentaire.setTimestamp(LocalDateTime.now());

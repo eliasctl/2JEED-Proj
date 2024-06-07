@@ -18,12 +18,11 @@ public class SaisonController {
     SaisonService saisonService;
 
     @PostMapping
-    public ResponseEntity<?> createSaison(@RequestBody Saison saison){
+    public ResponseEntity<?> createSaison(@RequestBody Saison saison) {
         try {
             return new ResponseEntity<>(
-                saisonService.createSaison(saison),
-                HttpStatus.CREATED
-            );
+                    saisonService.createSaison(saison),
+                    HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (DataIntegrityViolationException e) {
@@ -32,7 +31,7 @@ public class SaisonController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteSaison(@PathVariable Long id){
+    public ResponseEntity<?> deleteSaison(@PathVariable Long id) {
         Optional<Saison> saison = saisonService.getSaisonById(id);
         if (saison.isEmpty())
             return ResponseEntity.notFound().build();
@@ -40,12 +39,10 @@ public class SaisonController {
         if (saison.get().getJournees().size() != 0)
             return new ResponseEntity<>(
                     "Vous n'avez pas le droit",
-                    HttpStatus.FORBIDDEN
-            );
+                    HttpStatus.FORBIDDEN);
         saisonService.deleteSaison(id);
         return new ResponseEntity<>(
-                HttpStatus.GONE
-        );
+                HttpStatus.GONE);
     }
 
     @GetMapping("/{id}")

@@ -1,4 +1,5 @@
 package com.example.League.Application.controllers;
+
 import com.example.League.Application.models.Game;
 import com.example.League.Application.models.SuspensionMatch;
 import com.example.League.Application.models.Utilisateur;
@@ -31,7 +32,8 @@ public class SuspensionMatchController {
 
     @PostMapping
     public ResponseEntity<?> suspendMatch(@RequestBody SuspensionMatch suspensionMatch) {
-        Optional<Utilisateur> optUtilisateur = utilisateurService.getUtilisateurById(suspensionMatch.getMemberLeague().getId());
+        Optional<Utilisateur> optUtilisateur = utilisateurService
+                .getUtilisateurById(suspensionMatch.getMemberLeague().getId());
 
         if (optUtilisateur.isEmpty() || !isMemberLeague(optUtilisateur.get())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -49,8 +51,7 @@ public class SuspensionMatchController {
         suspensionMatchService.saveSuspensionMatch(suspensionMatch);
         return new ResponseEntity<>(
                 "La suspension a été faite avec succès",
-                HttpStatus.CREATED
-        );
+                HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -66,5 +67,4 @@ public class SuspensionMatchController {
         return utilisateur != null && Utilisateur.Role.MEMBER_LEAGUE.equals(utilisateur.getRole());
     }
 
-    
 }

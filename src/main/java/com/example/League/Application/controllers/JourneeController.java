@@ -25,22 +25,19 @@ public class JourneeController {
         Optional<Saison> saison = saisonService.getSaisonById(entity.getSaison().getId());
         if (saison.isEmpty())
             return ResponseEntity.notFound().build();
-    
+
         String libelle = entity.getLibelle();
         if (journeeService.existsByLibelleAndSaison(libelle, saison.get())) {
             return new ResponseEntity<>(
                     "Une journée avec le même libellé existe déjà pour cette saison",
-                    HttpStatus.BAD_REQUEST
-            );
+                    HttpStatus.BAD_REQUEST);
         }
-    
+
         journeeService.createJournee(entity);
         return new ResponseEntity<>(
                 "Journée ajoutée avec succès",
-                HttpStatus.CREATED
-        );
+                HttpStatus.CREATED);
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getJourneeById(@PathVariable Long id) {

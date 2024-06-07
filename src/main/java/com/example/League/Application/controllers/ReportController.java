@@ -45,8 +45,7 @@ public class ReportController {
         reportService.saveReport(report);
         return new ResponseEntity<>(
                 "Report ajouté avec succès",
-                HttpStatus.CREATED
-        );
+                HttpStatus.CREATED);
     }
 
     private boolean isMemberLeague(Utilisateur utilisateur) {
